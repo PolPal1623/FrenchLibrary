@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f172a">
+  <title>French Learning Suite</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fc;
+      --surface: rgba(255, 255, 255, 0.86);
+      --surface-strong: #ffffff;
+      --text: #0f172a;
+      --muted: #5b6474;
+      --line: rgba(15, 23, 42, 0.08);
+      --blue: #2563eb;
+      --blue-strong: #1d4ed8;
+      --orange: #f97316;
+      --shadow: 0 24px 48px -28px rgba(15, 23, 42, 0.35);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 18px;
+      --font-ui: "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-ui);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.16), transparent 22%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.35), transparent 40%),
+        var(--bg);
+      padding: 24px 16px 48px;
+    }
+
+    .page {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero,
+    .card,
+    .note {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero {
+      padding: clamp(24px, 4vw, 42px);
+      display: grid;
+      gap: 18px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.75);
+      color: var(--muted);
+      border: 1px solid var(--line);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--blue), var(--orange));
+      box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.12);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.2rem, 5vw, 4.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      max-width: 11ch;
+    }
+
+    .hero-copy {
+      margin: 0;
+      max-width: 64ch;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      background: var(--surface-strong);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.4rem;
+      letter-spacing: -0.04em;
+      margin-top: 6px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--blue-strong);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .primary,
+    .secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, color 180ms ease;
+    }
+
+    .primary {
+      background: linear-gradient(135deg, var(--blue), var(--blue-strong));
+      color: #fff;
+      box-shadow: 0 14px 28px rgba(37, 99, 235, 0.24);
+    }
+
+    .secondary {
+      background: var(--surface-strong);
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .primary:hover,
+    .secondary:hover,
+    .primary:focus-visible,
+    .secondary:focus-visible {
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .note {
+      padding: 20px 22px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .note h2 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .note p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+      padding-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="eyebrow">Общая библиотека приложений</div>
+      <div>
+        <h1>French Learning Suite</h1>
+        <p class="hero-copy">
+          Одна стартовая страница для всей серии приложений по французскому языку: дни недели, цвета, числа,
+          части тела, месяцы, глаголы и пространственные слова. Каждая карточка ведёт сразу и в live-версию,
+          и в исходный репозиторий.
+        </p>
+      </div>
+      <div class="stats">
+        <article class="stat">
+          <span>Приложений</span>
+          <strong>7</strong>
+        </article>
+        <article class="stat">
+          <span>Формат</span>
+          <strong>GitHub Pages</strong>
+        </article>
+        <article class="stat">
+          <span>Стек</span>
+          <strong>HTML + CSS + JS</strong>
+        </article>
+        <article class="stat">
+          <span>Режим</span>
+          <strong>Офлайн и без сборки</strong>
+        </article>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="Каталог приложений">
+      <article class="card">
+        <div>
+          <h2>FrenchDays</h2>
+          <p>Тренажёр по дням недели с вводом ответа, выбором вариантов и итоговой шпаргалкой.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">7 дней</span>
+          <span class="tag">Без повторов</span>
+        </div>
+        <div class="actions">
+          <a class="primary" href="https://polpal1623.github.io/FrenchDays/">Открыть</a>
+          <a class="secondary" href="https://github.com/PolPal1623/FrenchDays">GitHub</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div>
+          <h2>FrenchColors</h2>
+          <p>Практика по названиям цветов с вводом, выбором цветового свотча и произносительными подсказками.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">10 цветов</span>
+          <span class="tag">IPA</span>
+        </div>
+        <div class="actions">
+          <a class="primary" href="https://polpal1623.github.io/FrenchColors/">Открыть</a>
+          <a class="secondary" href="https://github.com/PolPal1623/FrenchColors">GitHub</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div>
+          <h2>FrenchNumbers</h2>
+          <p>Числительные 1-100 с заданиями на перевод в слова и обратно, плюс статистика по времени.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">1-100</span>
+          <span class="tag">Орфография</span>
+        </div>
+        <div class="actions">
+          <a class="primary" href="https://polpal1623.github.io/FrenchNumbers/">Открыть</a>
+          <a class="secondary" href="https://github.com/PolPal1623/FrenchNumbers">GitHub</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div>
+          <h2>BodyParts</h2>
+          <p>Быстрая викторина по частям тела с выбором перевода, счётом и историей раундов.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">26 слов</span>
+          <span class="tag">10 раундов</span>
+        </div>
+        <div class="actions">
+          <a class="primary" href="https://polpal1623.github.io/BodyParts/">Открыть</a>
+          <a class="secondary" href="https://github.com/PolPal1623/BodyParts">GitHub</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div>
+          <h2>FrenchMonths</h2>
+          <p>Изучение месяцев без повторов, с двумя типами вопросов и более мягкой проверкой ввода.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">12 месяцев</span>
+          <span class="tag">Без повторов</span>
+        </div>
+        <div class="actions">
+          <a class="primary" href="https://polpal1623.github.io/FrenchMonths/">Открыть</a>
+          <a class="secondary" href="https://github.com/PolPal1623/FrenchMonths">GitHub</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div>
+          <h2>LesVerbes</h2>
+          <p>Крупный офлайн-справочник по 39 глаголам и пяти временам со встроенной тренировкой и статистикой.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">39 глаголов</span>
+          <span class="tag">5 времён</span>
+        </div>
+        <div class="actions">
+          <a class="primary" href="https://polpal1623.github.io/LesVerbes/">Открыть</a>
+          <a class="secondary" href="https://github.com/PolPal1623/LesVerbes">GitHub</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div>
+          <h2>HelpWords</h2>
+          <p>Визуальный тренажёр по пространственным словам и выражениям на французском языке.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">15 выражений</span>
+          <span class="tag">SVG-сцены</span>
+        </div>
+        <div class="actions">
+          <a class="primary" href="https://polpal1623.github.io/HelpWords/">Открыть</a>
+          <a class="secondary" href="https://github.com/PolPal1623/HelpWords">GitHub</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="note">
+      <h2>Как использовать библиотеку</h2>
+      <p>Эту страницу удобно публиковать отдельным репозиторием через GitHub Pages и использовать как общий вход во всю серию приложений.</p>
+      <p>Если нужно, дальше её легко расширить: добавить фильтры по темам, иконки, прогресс пользователя или единый бренд-блок для всех тренажёров.</p>
+    </section>
+
+    <footer>French Learning Suite · единая библиотека мини-приложений для изучения французского языка</footer>
+  </div>
+</body>
+</html>
